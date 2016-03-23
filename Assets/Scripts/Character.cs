@@ -9,6 +9,8 @@ public class Character : MonoBehaviour
     */
     private Animator animator;
 
+    public GameObject placeholderRef;
+
     /*
     * CharacterType.Hundreds = 100
     * CharacterType.Tens = 10
@@ -64,21 +66,31 @@ public class Character : MonoBehaviour
         switch (characterType)
         {
             case LevelManager.CharacterType.Hundreds:
-                GameObject hundredsPlaceHolder = Instantiate(LevelManager.Instance.hundredsPlaceHolderPrefab);
-                hundredsPlaceHolder.transform.parent = transform.FindChild("PlaceHolder").transform;
+                placeholderRef = Instantiate(LevelManager.Instance.hundredsPlaceHolderPrefab);
+                placeholderRef.transform.parent = transform.FindChild("PlaceHolder").transform;
 
-                hundredsPlaceHolder.transform.rotation = transform.rotation;
-                hundredsPlaceHolder.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                hundredsPlaceHolder.transform.localScale = Vector3.one;
+                placeholderRef.transform.rotation = transform.rotation;
+                placeholderRef.transform.localPosition = new Vector3(0.0f, 20.0f, 0.0f);
+                placeholderRef.transform.localScale = Vector3.one;
+
+                // (int)characterType returns 100/10/1, depending on enum value
+                iTween.MoveTo(placeholderRef, iTween.Hash("y", 0,
+                 "time", 1, "easetype", "linear", "onCompleteTarget", gameObject, "onComplete", "OnCompletePlaceHolder"));
+
+               
 
                 break;
             case LevelManager.CharacterType.Tens:
-                GameObject tensPlaceHolder = Instantiate(LevelManager.Instance.tensPlaceHolderPrefab);
-                tensPlaceHolder.transform.parent = transform.FindChild("PlaceHolder").transform;
+                placeholderRef = Instantiate(LevelManager.Instance.tensPlaceHolderPrefab);
+                placeholderRef.transform.parent = transform.FindChild("PlaceHolder").transform;
 
-                tensPlaceHolder.transform.rotation = transform.rotation;
-                tensPlaceHolder.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                tensPlaceHolder.transform.localScale = Vector3.one;
+                placeholderRef.transform.rotation = transform.rotation;
+                placeholderRef.transform.localPosition = new Vector3(0.0f, 20.0f, 0.0f);
+                placeholderRef.transform.localScale = Vector3.one;
+
+                // (int)characterType returns 100/10/1, depending on enum value
+                iTween.MoveTo(placeholderRef, iTween.Hash("y", 0,
+                "time", 1, "easetype", "linear", "onCompleteTarget", gameObject, "onComplete", "OnCompletePlaceHolder"));
 
                 break;
         }
@@ -96,6 +108,11 @@ public class Character : MonoBehaviour
     {
         animator.applyRootMotion = false;
         animator.SetInteger("AnimState", 1);
+    }
+    void OnCompletePlaceHolder()
+    {
+        Debug.Log("HEY");
+        placeholderRef.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
 }
