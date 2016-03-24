@@ -3,7 +3,6 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
-
     public enum CharacterType
     {
         Hundreds = 100,
@@ -11,6 +10,7 @@ public class LevelManager : MonoBehaviour
         One = 1
     };
 
+    public SoundManager soundManager;
     public GameObject hundredsPlaceHolderPrefab;
     public GameObject tensPlaceHolderPrefab;
 
